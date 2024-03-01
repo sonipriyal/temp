@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "Enter the name of the directory you want to create";
+read directory
+mkdir $directory
+echo "Enter the name of the directory you want to delete";
+read directory1
+rmdir $directory1
+echo "Enter the name of the file you want to create";
+read directory3
+touch $directory3
+echo "Enter the name of the file you want to delete";
+read directory4
+rm $directory4
+echo "Enter the website you want to scan";
+read website
+nmap $website
