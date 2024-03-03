@@ -1,1 +1,44 @@
+#!/bin/bash
 
+download() {
+    
+    read -p "Do you want to download $media_type files? (yes/no): " choice
+    
+
+    if [ "$choice" = "yes" ]; then
+        for file in $media_links; do
+            echo "Downloading $media_type: $file"
+            wget "$file"
+        done
+    else
+        echo "Not downloading $media_type files."
+    fi
+}
+
+
+read -p "Enter the webpage URL: " webpage
+
+
+content=$(curl  "$webpage")
+
+
+all_links=$(echo "$content" | grep -E 'src="[^"]+"' | awk -F'"' '{print $2}')
+
+
+img_links=$(echo "$all_links" | grep -E '\.jpg|\.jpeg|\.png')
+audio_links=$(echo "$all_links" | grep -E '\.mp3|.wav')
+video_links=$(echo "$all_links" | grep -E '\.mp4')
+
+
+echo -e "\nFound image links:\n$img_links"
+echo -e "\nFound audio links:\n$audio_links"
+echo -e "\nFound video links:\n$video_links"
+
+
+media_type="images" media_links="$img_links" download
+
+
+media_type="audio" media_links="$audio_links" download
+
+
+media_type="video" media_links="$video_links" download
